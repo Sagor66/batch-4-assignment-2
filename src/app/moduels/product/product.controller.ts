@@ -23,6 +23,30 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const { title, author, category } = req.query;
+    const result = await ProductServices.getAllProductFromDB(
+      title,
+      author,
+      category,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Books retrieved successfully',
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: true,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
+  }
+};
+
 export const ProductControllers = {
   createProduct,
+  getAllProduct,
 };
