@@ -32,9 +32,14 @@ const updateSingleProductFromDB = async (
   return await Product.updateOne({ _id: productId }, { $set: productData });
 };
 
+const deleteSingleProductFromDB = async (productId: string) => {
+  return await Product.deleteOne({ _id: productId });
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
   updateSingleProductFromDB,
+  deleteSingleProductFromDB,
 };
