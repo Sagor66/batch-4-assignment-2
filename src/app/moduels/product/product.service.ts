@@ -25,8 +25,16 @@ const getSingleProductFromDB = async (productId: string) => {
   return await Product.findOne({ _id: productId });
 };
 
+const updateSingleProductFromDB = async (
+  productId: string,
+  productData: Partial<TProduct>,
+) => {
+  return await Product.updateOne({ _id: productId }, { $set: productData });
+};
+
 export const ProductServices = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
+  updateSingleProductFromDB,
 };

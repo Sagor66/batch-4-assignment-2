@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
-import { productValidationSchema } from './product.validation';
+import {
+  productUpdateValidationSchema,
+  productValidationSchema,
+} from './product.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -65,8 +68,35 @@ const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+const updateSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const productData = req.body;
+
+    const zodParsedData = productUpdateValidationSchema.parse(productData);
+
+    await ProductServices.updateSingleProductFromDB(productId, zodParsedData);
+
+    const updatedResult =
+      await ProductServices.getSingleProductFromDB(productId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Book updated successfully',
+      data: updatedResult,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: true,
+      message: err.message || 'Something went wrong',
+      error: err,
+    });
+  }
+};
+
 export const ProductControllers = {
   createProduct,
   getAllProduct,
   getSingleProduct,
+  updateSingleProduct,
 };
