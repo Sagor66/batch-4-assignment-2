@@ -5,11 +5,7 @@ const createProductIntoDB = async (productData: TProduct) => {
   return await Product.create(productData);
 };
 
-const getAllProductFromDB = async (
-  title: string,
-  author: string,
-  category: string,
-) => {
+const getAllProductFromDB = async (title: any, author: any, category: any) => {
   if (title) {
     return await Product.find({ title });
   } else if (author) {
